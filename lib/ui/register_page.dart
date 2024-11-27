@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:fify/auth/database_helper.dart'; // DatabaseHelper import ediyoruz
 import 'login_page.dart'; // LoginPage import ediyoruz
-import 'package:flutter/services.dart'; // TextInputFormatter ekliyoruz
+// TextInputFormatter ekliyoruz
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.center, // Dikeyde ortalama
               crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalama
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 // Başlık: GradientText ile renk geçişi uygulandı
                 Padding(
                   padding: const EdgeInsets.only(
@@ -114,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       fontSize: 60.0, // Font boyutunu biraz büyüttüm
                       fontWeight: FontWeight.bold, // Kalınlık ekledim
                     ),
-                    colors: [
+                    colors: const [
                       Colors.blue,
                       Colors.red,
                       Colors.teal,

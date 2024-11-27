@@ -6,7 +6,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'login_page.dart'; // Login ekranına yönlendirme için
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -63,11 +63,11 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Center(
             child: GradientText(
               'FIFYY',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 75.0,
                 fontWeight: FontWeight.bold,
               ),
-              colors: [
+              colors: const [
                 Colors.blue,
                 Colors.red,
                 Colors.teal,

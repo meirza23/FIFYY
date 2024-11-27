@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 60.0,
                     fontWeight: FontWeight.bold,
                   ),
-                  colors: [
+                  colors: const [
                     Colors.blue,
                     Colors.red,
                     Colors.teal,
