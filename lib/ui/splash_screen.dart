@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fify/ui/colors.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-import 'login_page.dart'; // Login ekranına yönlendirme için
+import '../auth/login_page.dart'; // Login ekranına yönlendirme için
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

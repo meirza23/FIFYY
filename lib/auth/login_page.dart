@@ -1,8 +1,8 @@
-import 'package:fify/ui/register_page.dart';
+import 'package:fify/auth/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:fify/auth/database_helper.dart'; // DatabaseHelper'ı import et
-import 'home_screen.dart'; // HomeScreen'e yönlendirme için import et
+import '../ui/home_screen.dart'; // HomeScreen'e yönlendirme için import et
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
