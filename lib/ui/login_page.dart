@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         contentPadding:
-            const EdgeInsets.symmetric(vertical: 16.0), // Yükseklik ortalaması
+            const EdgeInsets.symmetric(vertical: 20.0), // Ortak padding
       ),
     );
   }
@@ -105,29 +105,27 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
-          // Ana yapıyı ortalamak için Center widget'ı ekleniyor
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, // Ortalamayı aktifleştir
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: GradientText(
-                    'FIFYY',
-                    style: const TextStyle(
-                      fontSize: 60.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    colors: [
-                      Colors.blue,
-                      Colors.red,
-                      Colors.teal,
-                    ],
+                const SizedBox(height: 50),
+                GradientText(
+                  'FIFYY',
+                  style: const TextStyle(
+                    fontSize: 60.0,
+                    fontWeight: FontWeight.bold,
                   ),
+                  colors: [
+                    Colors.blue,
+                    Colors.red,
+                    Colors.teal,
+                  ],
                 ),
                 const SizedBox(height: 75),
+
+                // E-posta kutusu
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -136,19 +134,23 @@ class _LoginPageState extends State<LoginPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextField(
                         controller: _emailController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'E-posta',
                           hintStyle: TextStyle(color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20.0), // Ortak padding
                         ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 15),
+
+                // Şifre kutusu
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -157,13 +159,14 @@ class _LoginPageState extends State<LoginPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: _buildPasswordField(),
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
                 const SizedBox(height: 40),
+
+                // Giriş Yap butonu
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
@@ -187,6 +190,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 17),
+
+                // Üyelik yönlendirmesi
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

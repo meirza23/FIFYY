@@ -103,10 +103,11 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.center, // Dikeyde ortalama
               crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalama
               children: [
+                SizedBox(height: 50),
                 // Başlık: GradientText ile renk geçişi uygulandı
                 Padding(
-                  padding:
-                      const EdgeInsets.only(top: 50.0), // Başlığa üstten boşluk
+                  padding: const EdgeInsets.only(
+                      top: 100.0), // Başlığa üstten boşluk
                   child: GradientText(
                     'FIFYY',
                     style: const TextStyle(
