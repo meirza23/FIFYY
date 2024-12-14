@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       // Giriş başarılı, HomeScreen'e yönlendir
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } else {
       // Kullanıcı bulunamadı
