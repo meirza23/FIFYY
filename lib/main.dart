@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'FIFY App',
       theme: ThemeData(
         fontFamily:
-            'Arial', // Varsayılan font olarak SubstanceMedium kullanıyoruz
+            'SubstanceMedium', // Varsayılan font olarak SubstanceMedium kullanıyoruz
         primarySwatch: Colors.blue,
       ),
       home: const SplashScreen(), // SplashScreen ilk açılan ekran

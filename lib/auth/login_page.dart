@@ -1,8 +1,8 @@
 import 'package:fify/auth/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:fify/auth/database_helper.dart'; // DatabaseHelper'ı import et
-import '../ui/home_screen.dart'; // HomeScreen'e yönlendirme için import et
+import 'package:fify/auth/database_helper.dart'; // Import DatabaseHelper
+import '../ui/home_screen.dart'; // Import HomeScreen for navigation
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,60 +14,60 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true; // Şifreyi gizleyip göstermek için
+  bool _obscurePassword = true; // Toggle password visibility
 
-  // E-posta formatını kontrol eden fonksiyon
+  // Function to validate email format
   bool _isValidEmail(String email) {
     String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
     RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(email);
   }
 
-  // Giriş işlemi
+  // Login process
   Future<void> _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      _showErrorDialog("E-posta ve şifre boş olamaz.");
+      _showErrorDialog("Email and password cannot be empty.");
       return;
     }
 
     if (!_isValidEmail(email)) {
-      _showErrorDialog("Geçerli bir e-posta adresi girin.");
+      _showErrorDialog("Please enter a valid email address.");
       return;
     }
 
-    // Veritabanından kullanıcıyı kontrol et
+    // Check user in the database
     final user = await DatabaseHelper.instance
         .getUserByEmailAndPassword(email, password);
 
     if (user != null) {
-      // Giriş başarılı, HomeScreen'e yönlendir
+      // Login successful, navigate to HomeScreen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } else {
-      // Kullanıcı bulunamadı
-      _showErrorDialog("E-posta veya şifre hatalı.");
+      // User not found
+      _showErrorDialog("Incorrect email or password.");
     }
   }
 
-  // Hata mesajını göstermek için basit bir dialog fonksiyonu
+  // Simple dialog function to show error messages
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Hata'),
+          title: const Text('Error'),
           content: Text(message),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Tamam'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: _obscurePassword,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: 'Şifre',
+        hintText: 'Password',
         hintStyle: const TextStyle(color: Colors.black),
         suffixIcon: IconButton(
           icon: Icon(
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         contentPadding:
-            const EdgeInsets.symmetric(vertical: 20.0), // Ortak padding
+            const EdgeInsets.symmetric(vertical: 20.0), // Common padding
       ),
     );
   }
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 75),
 
-                // E-posta kutusu
+                // Email field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -139,10 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _emailController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'E-posta',
+                          hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.black),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 20.0), // Ortak padding
+                              vertical: 20.0), // Common padding
                         ),
                       ),
                     ),
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // Şifre kutusu
+                // Password field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 40),
 
-                // Giriş Yap butonu
+                // Log In button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Giriş Yap",
+                          "Log In",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -191,12 +191,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 17),
 
-                // Üyelik yönlendirmesi
+                // Sign-up prompt
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Üye değil misiniz?",
+                      "Not a member?",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.white),
                     ),
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                       child: const Text(
-                        " Şimdi Üye Ol!",
+                        " Sign Up Now!",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),

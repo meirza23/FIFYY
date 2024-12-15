@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:fify/auth/database_helper.dart'; // DatabaseHelper import ediyoruz
-import 'login_page.dart'; // LoginPage import ediyoruz
-// TextInputFormatter ekliyoruz
+import 'package:fify/auth/database_helper.dart'; // DatabaseHelper import
+import 'login_page.dart'; // LoginPage import
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,31 +17,31 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  // Kayıt işlemi
+  // Registration process
   void _register() async {
     final username = usernameController.text;
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
 
-    // E-posta doğrulaması
+    // Email validation
     if (!_isValidEmail(email)) {
-      _showErrorDialog('Geçersiz e-posta adresi!');
+      _showErrorDialog('Invalid email address!');
       return;
     }
 
-    // Boş alan kontrolü
+    // Empty field check
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
-      _showErrorDialog('Lütfen tüm alanları doldurun!');
+      _showErrorDialog('Please fill in all fields!');
       return;
     }
 
     if (password != confirmPassword) {
-      _showErrorDialog('Şifreler uyuşmuyor!');
+      _showErrorDialog('Passwords do not match!');
       return;
     }
 
-    // Kullanıcı verilerini veritabanına ekle
+    // Add user data to the database
     final user = {
       'username': username,
       'email': email,
@@ -52,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final result = await DatabaseHelper.instance.createUser(user);
 
     if (result > 0) {
-      // Başarılı kayıt sonrası login sayfasına yönlendirme
+      // Redirect to login page after successful registration
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -60,28 +59,28 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
     } else {
-      _showErrorDialog('Kayıt işlemi başarısız oldu!');
+      _showErrorDialog('Registration failed!');
     }
   }
 
-  // E-posta geçerliliğini kontrol etme
+  // Check email validity
   bool _isValidEmail(String email) {
     final emailRegex =
         RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(email);
   }
 
-  // Hata mesajı gösterme
+  // Show error message
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Hata'),
+          title: const Text('Error'),
           content: Text(message),
           actions: <Widget>[
             TextButton(
-              child: const Text('Tamam'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -95,24 +94,25 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Arka plan rengini siyah yapıyoruz
+      backgroundColor: Colors.black, // Background color set to black
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Dikeyde ortalama
-              crossAxisAlignment: CrossAxisAlignment.center, // Yatayda ortalama
+              mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Center horizontally
               children: [
                 const SizedBox(height: 50),
-                // Başlık: GradientText ile renk geçişi uygulandı
+                // Title: Applied gradient effect with GradientText
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 100.0), // Başlığa üstten boşluk
+                      top: 100.0), // Padding above the title
                   child: GradientText(
                     'FIFYY',
                     style: const TextStyle(
-                      fontSize: 60.0, // Font boyutunu biraz büyüttüm
-                      fontWeight: FontWeight.bold, // Kalınlık ekledim
+                      fontSize: 60.0, // Increased font size
+                      fontWeight: FontWeight.bold, // Added boldness
                     ),
                     colors: const [
                       Colors.blue,
@@ -123,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 75),
 
-                // Kullanıcı adı alanı
+                // Username field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -137,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: usernameController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Kullanıcı Adı',
+                          hintText: 'Username',
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // E-posta alanı
+                // Email field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -161,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'E-posta',
+                          hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -170,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // Şifre alanı
+                // Password field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -185,7 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Şifre',
+                          hintText: 'Password',
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -194,7 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 15),
 
-                // Şifre onay alanı
+                // Confirm password field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -209,7 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Şifre Tekrar',
+                          hintText: 'Confirm Password',
                           hintStyle: TextStyle(color: Colors.black),
                         ),
                       ),
@@ -218,11 +218,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 40),
-                // Kayıt ol butonu
+                // Register button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap: _register, // Kayıt işlemi
+                    onTap: _register, // Registration process
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -231,7 +231,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Kayıt Ol",
+                          "Register",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -243,18 +243,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 17),
 
-                // Giriş yap linki
+                // Login link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Zaten üye misiniz?",
+                      "Already have an account?",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Giriş sayfasına yönlendirme
+                        // Redirect to login page
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -263,7 +263,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         );
                       },
                       child: const Text(
-                        " Giriş Yap!",
+                        " Login!",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),
