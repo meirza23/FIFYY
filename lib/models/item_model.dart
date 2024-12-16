@@ -4,13 +4,23 @@ class ItemModel {
   final int totalResults;
   final List<Result> results;
 
-  ItemModel.fromJson(Map<String, dynamic> parsedJson)
+  ItemModel.fromJson(Map<String, dynamic> parsedJson, bool ifRecent)
       : page = parsedJson['page'] ?? 0,
         totalPages = parsedJson['total_pages'] ?? 0,
         totalResults = parsedJson['total_results'] ?? 0,
-        results = (parsedJson['results'] as List)
+        results = ((parsedJson['results'] as List)
             .map((result) => Result.fromJson(result))
-            .toList();
+            .toList()
+          ..sort((a, b) {
+            if (ifRecent) {
+              // Eğer 'ifRecent' true ise, releaseDate'e göre sıralama
+              return DateTime.parse(b.releaseDate)
+                  .compareTo(DateTime.parse(a.releaseDate));
+            } else {
+              // Eğer 'ifRecent' false ise, popülerliğe göre sıralama
+              return b.popularity.compareTo(a.popularity);
+            }
+          }));
 }
 
 class Result {

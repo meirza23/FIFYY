@@ -1,4 +1,6 @@
+import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/blocs/movies_bloc.dart';
+import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/ui/colors.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
 
     return Scaffold(
-      body: ContentPage(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: bgColor,
+        child: PreloadContent(),
+      ),
     );
+    ;
   }
 }
 
@@ -76,7 +84,7 @@ class _ContentPageState extends State<ContentPage> {
                     children: <Widget>[
                       Positioned(
                         child: Text(
-                          'Recent',
+                          'Popular',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -98,7 +106,7 @@ class _ContentPageState extends State<ContentPage> {
                     ],
                   ),
                 ),
-                RecentMovies(),
+                PopularMovies(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
@@ -128,6 +136,36 @@ class _ContentPageState extends State<ContentPage> {
                   ),
                 ),
                 TopRatedMovies(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 28,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                        child: Text(
+                          'Recent',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 3,
+                        right: 20,
+                        child: Text(
+                          'SEE ALL',
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                RecentMovies(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
@@ -166,6 +204,36 @@ class _ContentPageState extends State<ContentPage> {
   }
 }
 
+class PreloadContent extends StatefulWidget {
+  const PreloadContent({super.key});
+
+  @override
+  State<PreloadContent> createState() => _PreloadContentState();
+}
+
+class _PreloadContentState extends State<PreloadContent> {
+  @override
+  Widget build(BuildContext context) {
+    bloc_genres.fetchAllGenres();
+    return StreamBuilder(
+      stream: bloc_genres.allGenres,
+      builder: (context, AsyncSnapshot<GenreModel> snapshot) {
+        if (snapshot.hasData) {
+          return ContentPage();
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Bir şeyler yanlış gitti'),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
 class ItemsLoad extends StatefulWidget {
   final AsyncSnapshot<ItemModel> snapshot;
   const ItemsLoad(this.snapshot, {Key? key}) : super(key: key);
@@ -177,11 +245,13 @@ class ItemsLoad extends StatefulWidget {
 class _ItemsLoadState extends State<ItemsLoad> {
   @override
   Widget build(BuildContext context) {
+    final sortedMovies = widget.snapshot.data?.results;
+    sortedMovies?.sort((a, b) => b.popularity.compareTo(a.popularity));
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: 5,
       itemBuilder: (context, int index) {
-        final movie = widget.snapshot.data?.results?[index];
+        final movie = sortedMovies?[index];
         if (movie == null) {
           return SizedBox.shrink();
         }
@@ -221,6 +291,45 @@ class _ItemsLoadState extends State<ItemsLoad> {
   }
 }
 
+class PopularMovies extends StatefulWidget {
+  const PopularMovies({Key? key}) : super(key: key);
+
+  @override
+  _PopularMoviesState createState() => _PopularMoviesState();
+}
+
+class _PopularMoviesState extends State<PopularMovies> {
+  void initState() {
+    super.initState();
+    bloc.fetchAllMovies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: bloc.allMovies,
+      builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            margin: EdgeInsets.only(top: 20),
+            width: MediaQuery.of(context).size.width - 20,
+            height: 300,
+            child: ItemsLoad(snapshot),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Bir şeyler yanlış gitti'),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
 class RecentMovies extends StatefulWidget {
   const RecentMovies({Key? key}) : super(key: key);
 
@@ -229,9 +338,14 @@ class RecentMovies extends StatefulWidget {
 }
 
 class _RecentMoviesState extends State<RecentMovies> {
+  bool isRecent = true; // Burada 'isRecent' değişkeni tanımlandı
+
+  @override
   void initState() {
     super.initState();
-    bloc.fetchAllNowPlayingMovies();
+    if (isRecent) {
+      bloc.fetchAllNowPlayingMovies(); // Recent filmleri getirecek
+    }
   }
 
   @override

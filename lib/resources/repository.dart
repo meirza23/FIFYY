@@ -6,12 +6,12 @@ class Repository {
   final movieapiprovider = MovieApiProvider();
 
   Future<ItemModel> fetchAllMovies() =>
-      movieapiprovider.fetchPopularMovieList();
+      movieapiprovider.fetchPopularMovieList(false);
   Future<ItemModel> fetchAllTopRatedMovies() =>
-      movieapiprovider.fetchTopRatedMovieList();
+      movieapiprovider.fetchTopRatedMovieList(false);
   Future<ItemModel> fetchAllUpcomingMovies() =>
-      movieapiprovider.fetchUpcomingMovieList();
+      movieapiprovider.fetchUpcomingMovieList(false);
   Future<ItemModel> fetchAllNowPlayingMovies() =>
-      movieapiprovider.fetchNowPlayingMovieList();
+      movieapiprovider.fetchNowPlayingMovieList(true);
   Future<GenreModel> fetchAllGenres() => movieapiprovider.fetchGenresList();
 }
