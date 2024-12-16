@@ -13,6 +13,5 @@ class Repository {
       movieapiprovider.fetchUpcomingMovieList();
   Future<ItemModel> fetchAllNowPlayingMovies() =>
       movieapiprovider.fetchNowPlayingMovieList();
-  Future<ItemModel> fetchInterstellar() => movieapiprovider.fetchInterstellar();
   Future<GenreModel> fetchAllGenres() => movieapiprovider.fetchGenresList();
 }

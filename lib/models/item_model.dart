@@ -34,7 +34,8 @@ class Result {
         _voteAverage = (json['vote_average'] as num?)?.toDouble() ?? 0.0,
         _title = json['title'] ?? '',
         _popularity = json['popularity'] ?? 0,
-        _posterPath = json['poster_path'] ?? '',
+        _posterPath =
+            "https://image.tmdb.org/t/p/w185//" + json['poster_path'] ?? '',
         _genreIds = List<int>.from(json['genre_ids'] ?? []),
         _backdropPath = json['backdrop_path'] ?? '',
         _adult = json['adult'] ?? false,
