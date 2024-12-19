@@ -236,7 +236,7 @@ class _PopularMoviesState extends State<PopularMovies> {
           return Container(
             margin: EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 80,
             child: SAItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
@@ -280,7 +280,7 @@ class _RecentMoviesState extends State<RecentMovies> {
           return Container(
             margin: EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 80,
             child: SAItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
@@ -319,7 +319,7 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
           return Container(
             margin: EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 80,
             child: SAItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
@@ -356,7 +356,7 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
           return Container(
             margin: EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 80,
             child: SAItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
