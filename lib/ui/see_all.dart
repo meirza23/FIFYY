@@ -168,45 +168,21 @@ class SAItemsLoad extends StatefulWidget {
 class _SAItemsLoadState extends State<SAItemsLoad> {
   @override
   Widget build(BuildContext context) {
-    final sortedMovies = widget.snapshot.data?.results;
-    sortedMovies?.sort((a, b) => b.popularity.compareTo(a.popularity));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: widget.snapshot.data?.results.length,
       itemBuilder: (context, int index) {
-        final movie = sortedMovies?[index];
-        if (movie == null) {
-          return SizedBox.shrink();
-        }
-        return Row(
+        return new Row(
           children: <Widget>[
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: 300,
-                minWidth: MediaQuery.of(context).size.width * 0.40,
-                maxHeight: 300,
-                maxWidth: MediaQuery.of(context).size.width * 0.40,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(movie.posterPath),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    movie.title,
-                    style: TextStyle(color: Colors.white),
-                    maxLines: 1, // Başlık en fazla bir satırda gösterilir
-                    overflow:
-                        TextOverflow.ellipsis, // Fazla metni "..." ile kısaltır
-                  ),
-                ],
+            new ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                widget.snapshot.data!.results[index].posterPath,
               ),
             ),
-            SizedBox(width: 20),
+            SizedBox(
+              width: 20,
+            ),
           ],
         );
       },
