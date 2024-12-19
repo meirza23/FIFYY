@@ -3,6 +3,7 @@ import 'package:fify/blocs/movies_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/see_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PreloadContent(),
       ),
     );
-    ;
   }
 }
 
@@ -95,11 +95,24 @@ class _ContentPageState extends State<ContentPage> {
                       Positioned(
                         top: 3,
                         right: 20,
-                        child: Text(
-                          'SEE ALL',
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAll(
+                                  title: 'Popular Movies',
+                                  movieStream: bloc.allMovies,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SEE ALL',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -123,12 +136,26 @@ class _ContentPageState extends State<ContentPage> {
                         ),
                       ),
                       Positioned(
+                        top: 3,
                         right: 20,
-                        child: Text(
-                          'SEE ALL',
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAll(
+                                  title: 'Top Rated Movies',
+                                  movieStream: bloc.allTopRatedMovies,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SEE ALL',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -154,11 +181,24 @@ class _ContentPageState extends State<ContentPage> {
                       Positioned(
                         top: 3,
                         right: 20,
-                        child: Text(
-                          'SEE ALL',
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAll(
+                                  title: 'Recent Movies',
+                                  movieStream: bloc.allNowPlayingMovies,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SEE ALL',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -182,12 +222,26 @@ class _ContentPageState extends State<ContentPage> {
                         ),
                       ),
                       Positioned(
+                        top: 3,
                         right: 20,
-                        child: Text(
-                          'SEE ALL',
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeAll(
+                                  title: 'Upcoming Movies',
+                                  movieStream: bloc.allUpcomingMovies,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SEE ALL',
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
