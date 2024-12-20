@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/ui/colors.dart';
@@ -10,8 +12,7 @@ class SeeAll extends StatefulWidget {
   final String title;
   final Stream<ItemModel> movieStream;
 
-  const SeeAll({required this.title, required this.movieStream, Key? key})
-      : super(key: key);
+  const SeeAll({required this.title, required this.movieStream, super.key});
 
   @override
   _SeeAllState createState() => _SeeAllState();
@@ -45,8 +46,8 @@ class SeeAllContent extends StatefulWidget {
   const SeeAllContent({
     required this.title,
     required this.movieStream,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SeeAllContent> createState() => _SeeAllContentState();
@@ -63,6 +64,7 @@ class _SeeAllContentState extends State<SeeAllContent> {
           return SeeAllPage(
             title: widget.title,
             movieStream: widget.movieStream,
+            snapshotGenres: snapshot,
           );
         } else if (snapshot.hasError) {
           return const Center(
@@ -79,14 +81,16 @@ class _SeeAllContentState extends State<SeeAllContent> {
 }
 
 class SeeAllPage extends StatefulWidget {
+  final AsyncSnapshot<GenreModel> snapshotGenres;
   final String title;
   final Stream<ItemModel> movieStream;
 
   const SeeAllPage({
     required this.title,
     required this.movieStream,
-    Key? key,
-  }) : super(key: key);
+    required this.snapshotGenres,
+    super.key,
+  });
 
   @override
   _SeeAllPageState createState() => _SeeAllPageState();
@@ -106,16 +110,16 @@ class _SeeAllPageState extends State<SeeAllPage> {
 
     switch (widget.title) {
       case 'Popular Movies':
-        movieContent = PopularMovies();
+        movieContent = PopularMovies(widget.snapshotGenres);
         break;
       case 'Top Rated Movies':
-        movieContent = TopRatedMovies();
+        movieContent = TopRatedMovies(widget.snapshotGenres);
         break;
       case 'Recent Movies':
-        movieContent = RecentMovies();
+        movieContent = RecentMovies(widget.snapshotGenres);
         break;
       case 'Upcoming Movies':
-        movieContent = UpcomingMovies();
+        movieContent = UpcomingMovies(widget.snapshotGenres);
         break;
       default:
         movieContent = const Center(
@@ -159,7 +163,8 @@ class _SeeAllPageState extends State<SeeAllPage> {
 
 class SAItemsLoad extends StatefulWidget {
   final AsyncSnapshot<ItemModel> snapshot;
-  const SAItemsLoad(this.snapshot, {Key? key}) : super(key: key);
+  final AsyncSnapshot<GenreModel> snapshotGenres;
+  const SAItemsLoad(this.snapshot, this.snapshotGenres, {super.key});
 
   @override
   _SAItemsLoadState createState() => _SAItemsLoadState();
@@ -172,17 +177,88 @@ class _SAItemsLoadState extends State<SAItemsLoad> {
       scrollDirection: Axis.vertical,
       itemCount: widget.snapshot.data?.results.length,
       itemBuilder: (context, int index) {
-        return new Row(
+        return Column(
           children: <Widget>[
-            new ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                widget.snapshot.data!.results[index].posterPath,
-              ),
+            Row(
+              children: <Widget>[
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      widget.snapshot.data!.results[index].posterPath,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width - 20 - 185,
+                  height: 300,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 30, left: 10, right: 10, bottom: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Text(
+                          widget.snapshot.data!.results[index].title,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          widget.snapshot.data!.results[index].releaseDate,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 14),
+                        ),
+                        Text(
+                          widget.snapshotGenres.data!.getGenre(widget
+                              .snapshot
+                              .data!
+                              .results[index]
+                              .genreIds), // Genre adlarını virgülle ayırarak yazdırıyoruz
+                          style: TextStyle(color: textColor, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.star,
+                              color: iconColor,
+                              size: 28,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: widget
+                                    .snapshot.data!.results[index].voteAverage
+                                    .toString(),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                                children: const <TextSpan>[
+                                  TextSpan(
+                                    text: '/10',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 20,
-            ),
+            const SizedBox(
+              height: 4,
+            )
           ],
         );
       },
@@ -191,13 +267,15 @@ class _SAItemsLoadState extends State<SAItemsLoad> {
 }
 
 class PopularMovies extends StatefulWidget {
-  const PopularMovies({Key? key}) : super(key: key);
+  final AsyncSnapshot<GenreModel> snapshotGenres;
+  PopularMovies(this.snapshotGenres, {super.key});
 
   @override
   _PopularMoviesState createState() => _PopularMoviesState();
 }
 
 class _PopularMoviesState extends State<PopularMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllMovies();
@@ -210,17 +288,17 @@ class _PopularMoviesState extends State<PopularMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height - 80,
-            child: SAItemsLoad(snapshot),
+            height: MediaQuery.of(context).size.height - 90,
+            child: SAItemsLoad(snapshot, widget.snapshotGenres),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -230,7 +308,8 @@ class _PopularMoviesState extends State<PopularMovies> {
 }
 
 class RecentMovies extends StatefulWidget {
-  const RecentMovies({Key? key}) : super(key: key);
+  final AsyncSnapshot<GenreModel> snapshotGenres;
+  const RecentMovies(this.snapshotGenres, {super.key});
 
   @override
   _RecentMoviesState createState() => _RecentMoviesState();
@@ -254,17 +333,17 @@ class _RecentMoviesState extends State<RecentMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height - 80,
-            child: SAItemsLoad(snapshot),
+            height: MediaQuery.of(context).size.height - 90,
+            child: SAItemsLoad(snapshot, widget.snapshotGenres),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -274,13 +353,15 @@ class _RecentMoviesState extends State<RecentMovies> {
 }
 
 class UpcomingMovies extends StatefulWidget {
-  const UpcomingMovies({Key? key}) : super(key: key);
+  final AsyncSnapshot<GenreModel> snapshotGenres;
+  const UpcomingMovies(this.snapshotGenres, {super.key});
 
   @override
   _UpcomingMoviesState createState() => _UpcomingMoviesState();
 }
 
 class _UpcomingMoviesState extends State<UpcomingMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllUpcomingMovies();
@@ -293,17 +374,17 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height - 80,
-            child: SAItemsLoad(snapshot),
+            height: MediaQuery.of(context).size.height - 90,
+            child: SAItemsLoad(snapshot, widget.snapshotGenres),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -313,11 +394,14 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
 }
 
 class TopRatedMovies extends StatefulWidget {
+  final AsyncSnapshot<GenreModel> snapshotGenres;
+  const TopRatedMovies(this.snapshotGenres, {super.key});
   @override
   _TopRatedMoviesState createState() => _TopRatedMoviesState();
 }
 
 class _TopRatedMoviesState extends State<TopRatedMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllTopRatedMovies();
@@ -330,17 +414,17 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height - 80,
-            child: SAItemsLoad(snapshot),
+            height: MediaQuery.of(context).size.height - 90,
+            child: SAItemsLoad(snapshot, widget.snapshotGenres),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

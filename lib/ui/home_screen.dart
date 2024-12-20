@@ -1,14 +1,17 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/blocs/movies_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/movie_detail.dart';
 import 'package:fify/ui/see_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -26,20 +29,21 @@ class _HomeScreenState extends State<HomeScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: bgColor,
-        child: PreloadContent(),
+        child: const PreloadContent(),
       ),
     );
   }
 }
 
 class ContentPage extends StatefulWidget {
-  const ContentPage({Key? key}) : super(key: key);
+  const ContentPage({super.key});
 
   @override
   _ContentPageState createState() => _ContentPageState();
 }
 
 class _ContentPageState extends State<ContentPage> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllMovies();
@@ -60,7 +64,7 @@ class _ContentPageState extends State<ContentPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
+                const Text(
                   'Search',
                   style: TextStyle(
                     fontFamily: 'SubstanceMedium',
@@ -68,21 +72,27 @@ class _ContentPageState extends State<ContentPage> {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 TextField(
                   style: TextStyle(color: textColor, fontSize: 28),
                   decoration: InputDecoration.collapsed(
-                    hintText: 'Movie, Actors, Directors...',
+                    hintText: 'Movies, Actors, Directors...',
                     hintStyle: TextStyle(color: textColor, fontSize: 28),
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
+                Container(
+                  width: MediaQuery.of(context).size.width - 40,
+                  height: 0.5,
+                  color: textColor,
+                ),
+                const SizedBox(height: 12),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Popular',
                           style: TextStyle(
@@ -119,13 +129,13 @@ class _ContentPageState extends State<ContentPage> {
                     ],
                   ),
                 ),
-                PopularMovies(),
+                const PopularMovies(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Top Rated',
                           style: TextStyle(
@@ -162,13 +172,13 @@ class _ContentPageState extends State<ContentPage> {
                     ],
                   ),
                 ),
-                TopRatedMovies(),
+                const TopRatedMovies(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Recent',
                           style: TextStyle(
@@ -205,13 +215,13 @@ class _ContentPageState extends State<ContentPage> {
                     ],
                   ),
                 ),
-                RecentMovies(),
+                const RecentMovies(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Upcoming',
                           style: TextStyle(
@@ -248,7 +258,7 @@ class _ContentPageState extends State<ContentPage> {
                     ],
                   ),
                 ),
-                UpcomingMovies(),
+                const UpcomingMovies(),
               ],
             ),
           ),
@@ -273,13 +283,13 @@ class _PreloadContentState extends State<PreloadContent> {
       stream: bloc_genres.allGenres,
       builder: (context, AsyncSnapshot<GenreModel> snapshot) {
         if (snapshot.hasData) {
-          return ContentPage();
+          return const ContentPage();
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -290,7 +300,7 @@ class _PreloadContentState extends State<PreloadContent> {
 
 class ItemsLoad extends StatefulWidget {
   final AsyncSnapshot<ItemModel> snapshot;
-  const ItemsLoad(this.snapshot, {Key? key}) : super(key: key);
+  const ItemsLoad(this.snapshot, {super.key});
 
   @override
   _ItemsLoadState createState() => _ItemsLoadState();
@@ -307,37 +317,49 @@ class _ItemsLoadState extends State<ItemsLoad> {
       itemBuilder: (context, int index) {
         final movie = sortedMovies?[index];
         if (movie == null) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
         return Row(
           children: <Widget>[
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: 300.0,
-                minWidth: MediaQuery.of(context).size.width * 0.40,
-                maxHeight: 300.0,
-                maxWidth: MediaQuery.of(context).size.width * 0.40,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(movie.posterPath),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetail(
+                      widget.snapshot.data!.results[index],
+                    ),
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    movie.title,
-                    style: TextStyle(color: Colors.white),
-                    maxLines: 1, // Başlık en fazla bir satırda gösterilir
-                    overflow:
-                        TextOverflow.ellipsis, // Fazla metni "..." ile kısaltır
-                  ),
-                ],
+                );
+              },
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: 300.0,
+                  minWidth: MediaQuery.of(context).size.width * 0.40,
+                  maxHeight: 300.0,
+                  maxWidth: MediaQuery.of(context).size.width * 0.40,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(movie.posterPath),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      movie.title,
+                      style: const TextStyle(color: Colors.white),
+                      maxLines: 1, // Başlık en fazla bir satırda gösterilir
+                      overflow: TextOverflow
+                          .ellipsis, // Fazla metni "..." ile kısaltır
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
           ],
         );
       },
@@ -346,13 +368,14 @@ class _ItemsLoadState extends State<ItemsLoad> {
 }
 
 class PopularMovies extends StatefulWidget {
-  const PopularMovies({Key? key}) : super(key: key);
+  const PopularMovies({super.key});
 
   @override
   _PopularMoviesState createState() => _PopularMoviesState();
 }
 
 class _PopularMoviesState extends State<PopularMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllMovies();
@@ -365,17 +388,17 @@ class _PopularMoviesState extends State<PopularMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -385,7 +408,7 @@ class _PopularMoviesState extends State<PopularMovies> {
 }
 
 class RecentMovies extends StatefulWidget {
-  const RecentMovies({Key? key}) : super(key: key);
+  const RecentMovies({super.key});
 
   @override
   _RecentMoviesState createState() => _RecentMoviesState();
@@ -409,17 +432,17 @@ class _RecentMoviesState extends State<RecentMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -429,13 +452,14 @@ class _RecentMoviesState extends State<RecentMovies> {
 }
 
 class UpcomingMovies extends StatefulWidget {
-  const UpcomingMovies({Key? key}) : super(key: key);
+  const UpcomingMovies({super.key});
 
   @override
   _UpcomingMoviesState createState() => _UpcomingMoviesState();
 }
 
 class _UpcomingMoviesState extends State<UpcomingMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllUpcomingMovies();
@@ -448,17 +472,17 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -468,11 +492,14 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
 }
 
 class TopRatedMovies extends StatefulWidget {
+  const TopRatedMovies({super.key});
+
   @override
   _TopRatedMoviesState createState() => _TopRatedMoviesState();
 }
 
 class _TopRatedMoviesState extends State<TopRatedMovies> {
+  @override
   void initState() {
     super.initState();
     bloc.fetchAllTopRatedMovies();
@@ -485,17 +512,17 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

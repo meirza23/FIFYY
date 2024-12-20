@@ -17,6 +17,8 @@ class GenreBloc {
   dispose() {
     movieFetcher.close();
   }
+
+  getGenreNameById(int id) {}
 }
 
 final bloc_genres = GenreBloc();
