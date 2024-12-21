@@ -100,11 +100,6 @@ class _ContentPageState extends State<ContentPage> {
                     return await BackendService.getSuggestions(pattern);
                   },
                   itemBuilder: (context, suggestion) {
-                    if (suggestion.results.isEmpty) {
-                      return const SizedBox
-                          .shrink(); // Öneri yoksa boş bir widget döndür
-                    }
-                    // suggestion.results listesini göstermek için döngü kullanıyoruz
                     return ListView.builder(
                       itemCount: suggestion.results
                           .length, // Sonuç sayısına göre döngü başlatıyoruz
