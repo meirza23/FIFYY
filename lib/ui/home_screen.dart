@@ -93,35 +93,46 @@ class _ContentPageState extends State<ContentPage> {
                   },
                   suggestionsCallback: (pattern) async {
                     if (pattern.isEmpty) {
-                      // Girdi boşsa hiçbir öneri döndürme
                       return [];
                     }
-                    // Girdi doluyken API'den önerileri getir
                     return await BackendService.getSuggestions(pattern);
                   },
                   itemBuilder: (context, suggestion) {
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        final movie = suggestion.results[index];
-                        return ListTile(
-                          tileColor: textColor,
-                          selectedTileColor: textColor,
-                          leading: movie.posterPath.isNotEmpty
-                              ? Image.network(movie.posterPath)
-                              : Image.network(
-                                  "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
-                          title: Text(
-                            movie.title,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          subtitle: Text(
-                            "Release date : " + movie.releaseDate,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        );
-                      },
+                    // SingleChildScrollView ve Column ile öneriler manuel ekleniyor
+                    return SingleChildScrollView(
+                      child: Column(
+                        children:
+                            List.generate(suggestion.results.length, (index) {
+                          final movie = suggestion.results[index];
+                          return ListTile(
+                            tileColor: textColor,
+                            selectedTileColor: textColor,
+                            leading: movie.posterPath.isNotEmpty
+                                ? Image.network(movie.posterPath)
+                                : Image.network(
+                                    "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
+                            title: Text(
+                              movie.title,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              "Release date : " + movie.releaseDate,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            onTap: () {
+                              // Seçilen öneri üzerine tıklama işlemi
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    SearchDetail(product: movie),
+                              ));
+                            },
+                          );
+                        }),
+                      ),
                     );
                   },
+                  offset: Offset(0, 12),
+                  constraints: BoxConstraints(maxHeight: 750),
                   onSelected: (suggestion) {
                     clear();
                     Navigator.of(context).push(MaterialPageRoute(
