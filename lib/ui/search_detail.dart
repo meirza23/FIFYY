@@ -44,11 +44,11 @@ class _PreloadContentState extends State<PreloadContent> {
             snapshotGenres: snapshot,
           );
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Bir şeyler yanlış gitti'),
+          return const Center(
+            child: const Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -102,7 +102,7 @@ class _ContentPageState extends State<ContentPage> {
           Positioned(
             top: 330,
             child: Container(
-              padding: EdgeInsets.only(left: 20, top: 8),
+              padding: const EdgeInsets.only(left: 20, top: 8),
               width: width,
               height: 80,
               decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class _ContentPageState extends State<ContentPage> {
               width: width - 20,
               child: Text(
                 widget.product.title,
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
           ),
@@ -175,7 +175,7 @@ class _ContentPageState extends State<ContentPage> {
                               ),
                               new Text(
                                 'Popularity',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16),
@@ -225,14 +225,14 @@ class _ContentPageState extends State<ContentPage> {
                             children: <Widget>[
                               new Text(
                                 widget.product.voteCount,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24),
                               ),
                               new Text(
                                 'Vote Count',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16),
@@ -267,12 +267,12 @@ class _ContentPageState extends State<ContentPage> {
                 children: <Widget>[
                   new Text(
                     'Description',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   new Text(
@@ -306,7 +306,7 @@ class _GetGenresState extends State<GetGenres> {
   @override
   Widget build(BuildContext context) {
     if (widget.snapshotGenres == null || !widget.snapshotGenres!.hasData) {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
 
     final genreIdsList = widget.product.genreIds; // genreIds zaten liste olmalı
@@ -314,7 +314,7 @@ class _GetGenresState extends State<GetGenres> {
 
     // genres null veya boşsa, kullanıcıya bir şeyler gösterelim
     if (genres == null || genres.isEmpty) {
-      return Center(
+      return const Center(
         child: Text('No genres available'),
       );
     }
@@ -352,7 +352,7 @@ class _GetGenresState extends State<GetGenres> {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           genreName,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

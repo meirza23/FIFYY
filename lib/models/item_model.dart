@@ -10,9 +10,10 @@ class ItemModel {
       : page = parsedJson['page'] ?? 0,
         totalPages = parsedJson['total_pages'] ?? 0,
         totalResults = parsedJson['total_results'] ?? 0,
-        results = ((parsedJson['results'] as List)
-            .map((result) => Result.fromJson(result))
-            .toList()
+        results = ((parsedJson['results'] as List?)
+                ?.map((result) => Result.fromJson(result))
+                .toList() ??
+            [])
           ..sort((a, b) {
             if (ifRecent) {
               // Eğer 'ifRecent' true ise, releaseDate'e göre sıralama
@@ -22,7 +23,7 @@ class ItemModel {
               // Eğer 'ifRecent' false ise, popülerliğe göre sıralama
               return b.popularity.compareTo(a.popularity);
             }
-          }));
+          });
 }
 
 class Result {

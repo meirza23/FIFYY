@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+final _typeAheadController = TextEditingController();
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -30,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: bgColor,
-        child: PreloadContent(),
+        child: const PreloadContent(),
       ),
     );
   }
@@ -49,6 +51,10 @@ class _ContentPageState extends State<ContentPage> {
     bloc.fetchAllMovies();
   }
 
+  void clear() {
+    _typeAheadController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -63,7 +69,7 @@ class _ContentPageState extends State<ContentPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
+                const Text(
                   'Search',
                   style: TextStyle(
                     fontFamily: 'SubstanceMedium',
@@ -71,28 +77,78 @@ class _ContentPageState extends State<ContentPage> {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 6),
-                TextField(
-                  style: TextStyle(color: textColor, fontSize: 28),
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Movies...',
-                    hintStyle: TextStyle(color: textColor, fontSize: 28),
-                  ),
+                const SizedBox(height: 6),
+                TypeAheadField(
+                  builder: (context, controller, focusNode) {
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      autofocus: true,
+                      style: TextStyle(color: textColor, fontSize: 28),
+                      decoration: InputDecoration.collapsed(
+                        hintText: "Movies...",
+                        hintStyle: TextStyle(color: textColor, fontSize: 28),
+                      ),
+                    );
+                  },
+                  suggestionsCallback: (pattern) async {
+                    if (pattern.isEmpty) {
+                      // Girdi boşsa hiçbir öneri döndürme
+                      return [];
+                    }
+                    // Girdi doluyken API'den önerileri getir
+                    return await BackendService.getSuggestions(pattern);
+                  },
+                  itemBuilder: (context, suggestion) {
+                    if (suggestion.results.isEmpty) {
+                      return const SizedBox
+                          .shrink(); // Öneri yoksa boş bir widget döndür
+                    }
+                    // suggestion.results listesini göstermek için döngü kullanıyoruz
+                    return ListView.builder(
+                      itemCount: suggestion.results
+                          .length, // Sonuç sayısına göre döngü başlatıyoruz
+                      itemBuilder: (context, index) {
+                        final movie = suggestion.results[index];
+                        return ListTile(
+                          tileColor: textColor,
+                          selectedTileColor: textColor,
+                          leading: movie.posterPath.isNotEmpty
+                              ? Image.network(movie.posterPath)
+                              : Image.network(
+                                  "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
+                          title: Text(
+                            movie.title,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          subtitle: Text(
+                            "Release date : " + movie.releaseDate,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  onSelected: (suggestion) {
+                    clear();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SearchDetail(product: suggestion),
+                    ));
+                  },
                 ),
-                SearchMovie(),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Container(
                   width: MediaQuery.of(context).size.width - 40,
                   height: 0.5,
                   color: textColor,
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Popular',
                           style: TextStyle(
@@ -135,8 +191,8 @@ class _ContentPageState extends State<ContentPage> {
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
-                        child: Text(
+                      const Positioned(
+                        child: const Text(
                           'Top Rated',
                           style: TextStyle(
                             color: Colors.white,
@@ -178,7 +234,7 @@ class _ContentPageState extends State<ContentPage> {
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Recent',
                           style: TextStyle(
@@ -221,7 +277,7 @@ class _ContentPageState extends State<ContentPage> {
                   height: 28,
                   child: Stack(
                     children: <Widget>[
-                      Positioned(
+                      const Positioned(
                         child: Text(
                           'Upcoming',
                           style: TextStyle(
@@ -283,13 +339,13 @@ class _PreloadContentState extends State<PreloadContent> {
       stream: bloc_genres.allGenres,
       builder: (context, AsyncSnapshot<GenreModel> snapshot) {
         if (snapshot.hasData) {
-          return ContentPage();
+          return const ContentPage();
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -317,7 +373,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
       itemBuilder: (context, int index) {
         final movie = sortedMovies?[index];
         if (movie == null) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
         return Row(
           children: <Widget>[
@@ -347,10 +403,10 @@ class _ItemsLoadState extends State<ItemsLoad> {
                       borderRadius: BorderRadius.circular(20),
                       child: Image.network(movie.posterPath),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       movie.title,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       maxLines: 1, // Başlık en fazla bir satırda gösterilir
                       overflow: TextOverflow
                           .ellipsis, // Fazla metni "..." ile kısaltır
@@ -359,7 +415,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
                 ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
           ],
         );
       },
@@ -387,17 +443,17 @@ class _PopularMoviesState extends State<PopularMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -431,17 +487,17 @@ class _RecentMoviesState extends State<RecentMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -470,17 +526,17 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -509,92 +565,21 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 20,
             height: 300,
             child: ItemsLoad(snapshot),
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Bir şeyler yanlış gitti'),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
       },
-    );
-  }
-}
-
-class SearchMovie extends StatefulWidget {
-  @override
-  State<SearchMovie> createState() => _SearchMovieState();
-}
-
-class _SearchMovieState extends State<SearchMovie> {
-  final TextEditingController _typeAheadController = TextEditingController();
-
-  void clear() {
-    _typeAheadController.clear();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 80),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TypeAheadField(
-            textFieldConfiguration: TextFieldConfiguration(
-              controller: _typeAheadController,
-              autofocus: true,
-              style: TextStyle(color: Colors.black, fontSize: 28),
-              decoration: InputDecoration.collapsed(
-                hintText: "Movies...",
-                hintStyle: TextStyle(color: Colors.black, fontSize: 24),
-              ),
-            ),
-            suggestionsCallback: (pattern) async {
-              return await BackendService.getSuggestions(pattern);
-            },
-            itemBuilder: (context, suggestion) {
-              return ListTile(
-                tileColor: Colors.black,
-                selectedTileColor: Colors.black,
-                leading: suggestion.results.isNotEmpty &&
-                        suggestion.results[0].posterPath.isNotEmpty
-                    ? Image.network(suggestion.results[0].posterPath)
-                    : Image.network(
-                        "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
-                title: Text(
-                  suggestion.results.isNotEmpty
-                      ? suggestion.results[0].title
-                      : 'No Title',
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Text(
-                  suggestion.results.isNotEmpty
-                      ? "Release date : " + suggestion.results[0].releaseDate
-                      : '',
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
-            },
-            onSuggestionSelected: (suggestion) {
-              clear();
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SearchDetail(product: suggestion),
-              ));
-            },
-          ),
-          Divider(color: Colors.black, thickness: 1),
-        ],
-      ),
     );
   }
 }
