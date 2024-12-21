@@ -3,6 +3,7 @@
 import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/blocs/movies_bloc.dart';
@@ -105,7 +106,6 @@ class _SeeAllPageState extends State<SeeAllPage> {
 
   @override
   Widget build(BuildContext context) {
-    // widget.title’a göre uygun class’ı çağırıyoruz
     Widget movieContent;
 
     switch (widget.title) {
@@ -131,30 +131,48 @@ class _SeeAllPageState extends State<SeeAllPage> {
       body: Container(
         padding: const EdgeInsets.only(left: 20, top: 50),
         color: bgColor,
-        child: SingleChildScrollView(
-          // Tüm içerik kaydırılabilir olacak
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 28,
-                child: Stack(
-                  children: <Widget>[
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
+        child: Stack(
+          children: [
+            // SingleChildScrollView içerik kısmı
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 28,
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          left: 0,
+                          top: -8,
+                          child: IconButton(
+                            icon: Image.asset('assets/images/left-arrow.png',
+                                width: 25, height: 25),
+                            onPressed: () {
+                              Navigator.pop(context); // Geri gitmek için
+                            },
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  // İlgili içerik burada
+                  movieContent,
+                ],
               ),
-              movieContent, // İlgili sınıfı buraya ekledik
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -179,82 +197,97 @@ class _SAItemsLoadState extends State<SAItemsLoad> {
       itemBuilder: (context, int index) {
         return Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      widget.snapshot.data!.results[index].posterPath,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetail(
+                      widget.snapshot.data!.results[index],
                     ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width - 20 - 185,
-                  height: 300,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 30, left: 10, right: 10, bottom: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
-                          widget.snapshot.data!.results[index].title,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          widget.snapshot.data!.results[index].releaseDate,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 14),
-                        ),
-                        Text(
-                          widget.snapshotGenres.data!.getGenre(widget
-                              .snapshot
-                              .data!
-                              .results[index]
-                              .genreIds), // Genre adlarını virgülle ayırarak yazdırıyoruz
-                          style: TextStyle(color: textColor, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.star,
-                              color: iconColor,
-                              size: 28,
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: widget
-                                    .snapshot.data!.results[index].voteAverage
-                                    .toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                                children: const <TextSpan>[
-                                  TextSpan(
-                                    text: '/10',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  ),
-                                ],
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        widget.snapshot.data!.results[index].posterPath,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 20 - 185,
+                    height: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 30, left: 10, right: 10, bottom: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            widget.snapshot.data!.results[index].title,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            widget.snapshot.data!.results[index].releaseDate,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 14),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            widget.snapshotGenres.data!.getGenre(widget
+                                .snapshot
+                                .data!
+                                .results[index]
+                                .genreIds), // Genre adlarını virgülle ayırarak yazdırıyoruz
+                            style: TextStyle(color: textColor, fontSize: 16),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.star,
+                                color: iconColor,
+                                size: 28,
                               ),
-                            ),
-                          ],
-                        )
-                      ],
+                              RichText(
+                                text: TextSpan(
+                                  text: widget
+                                      .snapshot.data!.results[index].voteAverage
+                                      .toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                      text: '/10',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 4,

@@ -76,7 +76,7 @@ class _ContentPageState extends State<ContentPage> {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 360,
+            height: 410,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fitWidth,
@@ -88,7 +88,17 @@ class _ContentPageState extends State<ContentPage> {
             ),
           ),
           Positioned(
-            top: 280,
+            top: 40,
+            left: 10,
+            child: IconButton(
+              icon: Image.asset('assets/images/left-arrow.png', width: 30),
+              onPressed: () {
+                Navigator.pop(context); // Bir önceki sayfaya yönlendirir
+              },
+            ),
+          ),
+          Positioned(
+            top: 330,
             child: Container(
               padding: EdgeInsets.only(left: 20, top: 8),
               width: width,
@@ -111,21 +121,167 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 230,
+            top: 280,
             child: Container(
               width: width - 20,
               child: Text(
                 widget.data.title,
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
           ),
           Positioned(
             left: 20,
-            top: 290,
+            top: 340,
             child: GetGenres(
               snapshotGenres: widget.snapshotGenres,
               data: this.widget.data,
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 430,
+            child: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              height: 0.5,
+              color: textColor,
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 430,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 120,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 40) / 3,
+                        height: 120,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Text(
+                                widget.data.popularity.toString(),
+                                style: TextStyle(
+                                    color: popularityColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22),
+                              ),
+                              new Text(
+                                'Popularity',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 40) / 3,
+                        height: 120,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.star,
+                                color: iconColor,
+                                size: 32,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: widget.data.voteAverage.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                      text: '/10',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 40) / 3,
+                        height: 120,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Text(
+                                widget.data.voteCount,
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24),
+                              ),
+                              new Text(
+                                'Vote Count',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 550,
+            child: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              height: 0.5,
+              color: textColor,
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 560,
+            child: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  new Text(
+                    'Description',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  new Text(
+                    widget.data.overview,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
