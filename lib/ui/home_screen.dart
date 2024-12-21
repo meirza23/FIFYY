@@ -60,7 +60,7 @@ class _ContentPageState extends State<ContentPage> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.only(left: 20, top: 50),
+          padding: const EdgeInsets.only(left: 20, top: 50, right: 20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: bgColor,
@@ -101,8 +101,6 @@ class _ContentPageState extends State<ContentPage> {
                   },
                   itemBuilder: (context, suggestion) {
                     return ListView.builder(
-                      itemCount: suggestion.results
-                          .length, // Sonuç sayısına göre döngü başlatıyoruz
                       itemBuilder: (context, index) {
                         final movie = suggestion.results[index];
                         return ListTile(
