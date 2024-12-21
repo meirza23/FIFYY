@@ -113,11 +113,11 @@ class _ContentPageState extends State<ContentPage> {
                                     "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
                             title: Text(
                               movie.title,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: textColor),
                             ),
                             subtitle: Text(
                               "Release date : " + movie.releaseDate,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: textColor),
                             ),
                             onTap: () {
                               // Seçilen öneri üzerine tıklama işlemi
