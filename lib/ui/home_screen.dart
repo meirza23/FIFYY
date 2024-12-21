@@ -2,11 +2,14 @@ import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/blocs/movies_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
+import 'package:fify/services/search.dart';
 import 'package:fify/ui/colors.dart';
 import 'package:fify/ui/movie_detail.dart';
+import 'package:fify/ui/search_detail.dart';
 import 'package:fify/ui/see_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -48,7 +51,6 @@ class _ContentPageState extends State<ContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllMovies();
     return Stack(
       children: <Widget>[
         Container(
@@ -73,10 +75,11 @@ class _ContentPageState extends State<ContentPage> {
                 TextField(
                   style: TextStyle(color: textColor, fontSize: 28),
                   decoration: InputDecoration.collapsed(
-                    hintText: 'Movies, Actors, Directors...',
+                    hintText: 'Movies...',
                     hintStyle: TextStyle(color: textColor, fontSize: 28),
                   ),
                 ),
+                SearchMovie(),
                 SizedBox(height: 12),
                 Container(
                   width: MediaQuery.of(context).size.width - 40,
@@ -521,6 +524,77 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
           );
         }
       },
+    );
+  }
+}
+
+class SearchMovie extends StatefulWidget {
+  @override
+  State<SearchMovie> createState() => _SearchMovieState();
+}
+
+class _SearchMovieState extends State<SearchMovie> {
+  final TextEditingController _typeAheadController = TextEditingController();
+
+  void clear() {
+    _typeAheadController.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 80),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TypeAheadField(
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: _typeAheadController,
+              autofocus: true,
+              style: TextStyle(color: Colors.black, fontSize: 28),
+              decoration: InputDecoration.collapsed(
+                hintText: "Movies...",
+                hintStyle: TextStyle(color: Colors.black, fontSize: 24),
+              ),
+            ),
+            suggestionsCallback: (pattern) async {
+              return await BackendService.getSuggestions(pattern);
+            },
+            itemBuilder: (context, suggestion) {
+              return ListTile(
+                tileColor: Colors.black,
+                selectedTileColor: Colors.black,
+                leading: suggestion.results.isNotEmpty &&
+                        suggestion.results[0].posterPath.isNotEmpty
+                    ? Image.network(suggestion.results[0].posterPath)
+                    : Image.network(
+                        "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
+                title: Text(
+                  suggestion.results.isNotEmpty
+                      ? suggestion.results[0].title
+                      : 'No Title',
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Text(
+                  suggestion.results.isNotEmpty
+                      ? "Release date : " + suggestion.results[0].releaseDate
+                      : '',
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              clear();
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SearchDetail(product: suggestion),
+              ));
+            },
+          ),
+          Divider(color: Colors.black, thickness: 1),
+        ],
+      ),
     );
   }
 }
