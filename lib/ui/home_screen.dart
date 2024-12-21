@@ -119,13 +119,6 @@ class _ContentPageState extends State<ContentPage> {
                               "Release date : " + movie.releaseDate,
                               style: TextStyle(color: textColor),
                             ),
-                            onTap: () {
-                              // Seçilen öneri üzerine tıklama işlemi
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SearchDetail(product: movie),
-                              ));
-                            },
                           );
                         }),
                       ),
