@@ -44,6 +44,7 @@ dependencies:
   flutter_typeahead: ^5.2.0
   url_launcher: ^6.1.7
   flutter_keyboard_visibility: ^6.0.0
+  ansicolor: ^2.0.0
 
 dev_dependencies:
   flutter_test:

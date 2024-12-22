@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
-
 class ItemModel {
   final int page;
   final int totalPages;
@@ -10,30 +8,34 @@ class ItemModel {
       : page = parsedJson['page'] ?? 0,
         totalPages = parsedJson['total_pages'] ?? 0,
         totalResults = parsedJson['total_results'] ?? 0,
-        results = ((parsedJson['results'] as List?)
-                ?.map((result) => Result.fromJson(result))
-                .toList() ??
+        results = ((parsedJson['results'] as List?)?.map((result) {
+              print(
+                  "Result JSON: $result"); // Debugging line to check each result
+              return Result.fromJson(result);
+            }).toList() ??
             [])
           ..sort((a, b) {
             if (ifRecent) {
-              // Eğer 'ifRecent' true ise, releaseDate'e göre sıralama
               return DateTime.parse(b.releaseDate)
                   .compareTo(DateTime.parse(a.releaseDate));
             } else {
-              // Eğer 'ifRecent' false ise, popülerliğe göre sıralama
               return b.popularity.compareTo(a.popularity);
             }
           });
+
+  @override
+  String toString() {
+    return 'ItemModel(page: $page, totalPages: $totalPages, totalResults: $totalResults, results: [${results.map((result) => result.toString()).join(', ')}])';
+  }
 }
 
 class Result {
   final String _voteCount;
   final int _id;
   final bool _video;
-  final double _voteAverage; // 'int' yerine 'double' kullanıyoruz.
+  final double _voteAverage;
   final String _title;
-  final num
-      _popularity; // 'num' olarak bırakabiliriz, ama 'int' de yapılabilir.
+  final num _popularity;
   final String _posterPath;
   final List<int> _genreIds;
   final String _backdropPath;
@@ -45,8 +47,7 @@ class Result {
       : _voteCount = json['vote_count']?.toString() ?? '',
         _id = json['id'] ?? 0,
         _video = json['video'] ?? false,
-        _voteAverage = (json['vote_average'] as num?)?.toDouble() ??
-            0.0, // 'toDouble()' ekledik.
+        _voteAverage = (json['vote_average'] as num?)?.toDouble() ?? 0.0,
         _title = json['title'] ?? '',
         _popularity = json['popularity'] ?? 0,
         _posterPath =
@@ -65,8 +66,13 @@ class Result {
   String get posterPath => _posterPath;
   num get popularity => _popularity;
   String get title => _title;
-  double get voteAverage => _voteAverage; // 'double' olarak güncellendi.
+  double get voteAverage => _voteAverage;
   bool get isVideo => _video;
   int get id => _id;
   String get voteCount => _voteCount;
+
+  @override
+  String toString() {
+    return 'Result(title: $title, voteCount: $voteCount, id: $id, popularity: $popularity, releaseDate: $releaseDate)';
+  }
 }

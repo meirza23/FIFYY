@@ -95,37 +95,29 @@ class _ContentPageState extends State<ContentPage> {
                     if (pattern.isEmpty) {
                       return [];
                     }
-                    return await BackendService.getSuggestions(pattern);
+
+                    // Fetch suggestions from the backend
+                    final suggestions =
+                        await BackendService.getSuggestions(pattern);
+                    print(suggestions);
+
+                    // Eğer gelen sonuçlar beklenmedik bir formatta ise, uygun şekilde dönüştürmeyi unutmayın
+                    return suggestions;
                   },
                   itemBuilder: (context, suggestion) {
-                    // SingleChildScrollView ve Column ile öneriler manuel ekleniyor
-                    return SingleChildScrollView(
-                      child: Column(
-                        children:
-                            List.generate(suggestion.results.length, (index) {
-                          final movie = suggestion.results[index];
-                          return ListTile(
-                            tileColor: textColor,
-                            selectedTileColor: textColor,
-                            leading: movie.posterPath.isNotEmpty
-                                ? Image.network(movie.posterPath)
-                                : Image.network(
-                                    "https://www.subscription.co.uk/time/europe/Solo/Content/Images/noCover.gif"),
-                            title: Text(
-                              movie.title,
-                              style: TextStyle(color: textColor),
-                            ),
-                            subtitle: Text(
-                              "Release date : " + movie.releaseDate,
-                              style: TextStyle(color: textColor),
-                            ),
-                          );
-                        }),
-                      ),
+                    // Ensure the suggestion list is not empty before accessing its elements
+                    if (suggestion.results.isEmpty) {
+                      return ListTile(
+                        leading: Icon(Icons.movie),
+                        title: Text("No results found"),
+                      );
+                    }
+                    return ListTile(
+                      leading: Image.network(suggestion.posterPath),
+                      title: Text(suggestion.title),
+                      subtitle: Text(suggestion.releaseDate),
                     );
                   },
-                  offset: Offset(0, 12),
-                  constraints: BoxConstraints(maxHeight: 750),
                   onSelected: (suggestion) {
                     clear();
                     Navigator.of(context).push(MaterialPageRoute(
