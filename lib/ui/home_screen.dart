@@ -83,7 +83,7 @@ class _ContentPageState extends State<ContentPage> {
                     return TextField(
                       controller: controller,
                       focusNode: focusNode,
-                      autofocus: true,
+                      autofocus: false,
                       style: TextStyle(color: textColor, fontSize: 28),
                       decoration: InputDecoration.collapsed(
                         hintText: "Movies...",
