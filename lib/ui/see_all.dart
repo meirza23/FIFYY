@@ -317,7 +317,7 @@ class _PopularMoviesState extends State<PopularMovies> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bloc.allMovies,
+      stream: bloc.allPopularMovies,
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
