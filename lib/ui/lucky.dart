@@ -66,7 +66,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
     Random random = Random();
     int randomNumber = random.nextInt(20);
     return StreamBuilder(
-      stream: bloc.allPopularMovies,
+      stream: bloc.allMovies,
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(

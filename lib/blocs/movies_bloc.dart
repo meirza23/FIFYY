@@ -19,18 +19,18 @@ class MoviesBloc {
   Stream<ItemModel> get allPopularMovies => movieFetcher5.stream;
   fetchAllMovies() async {
     // Popüler ve en yüksek puanlı filmleri aynı anda çekiyoruz
-    final popularMovies = await repo.fetchAllPopularMovies();
-    final topRatedMovies = await repo.fetchAllTopRatedMovies();
+    ItemModel itemModel1 = await repo.fetchAllPopularMovies();
+    ItemModel itemmodel2 = await repo.fetchAllTopRatedMovies();
 
     // Her iki listeyi birleştiriyoruz
-    popularMovies.results.addAll(topRatedMovies.results);
+    itemModel1.results.addAll(itemmodel2.results);
     // Birleştirilmiş listeyi döndürüyoruz
-    return popularMovies;
+    movieFetcher.sink.add(itemModel1);
   }
 
   fetchAllPopularMovies() async {
     ItemModel itemModel = await repo.fetchAllPopularMovies();
-    movieFetcher.sink.add(itemModel);
+    movieFetcher5.sink.add(itemModel);
   }
 
   fetchAllTopRatedMovies() async {
