@@ -4,6 +4,7 @@ import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/services/search.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/lucky.dart';
 import 'package:fify/ui/movie_detail.dart';
 import 'package:fify/ui/search_detail.dart';
 import 'package:fify/ui/see_all.dart';
@@ -119,10 +120,56 @@ class _ContentPageState extends State<ContentPage> {
                   },
                 ),
                 const SizedBox(height: 12),
-                Container(
-                  width: MediaQuery.of(context).size.width - 40,
-                  height: 0.5,
-                  color: textColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Do you feel lucky?',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow
+                            .ellipsis, // Uzun metni üç nokta ile kısaltır.
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30, top: 5),
+                      child: Image.asset(
+                        'assets/images/right-arrow.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30, top: 5),
+                      child: Image.asset(
+                        'assets/images/right-arrow.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                    ), // Resmi sola kaydırmak için boşluk ekleniyor.
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Lucky()),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/lucky.png',
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 0.5,
+                  height: 20,
                 ),
                 const SizedBox(height: 12),
                 SizedBox(

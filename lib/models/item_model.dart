@@ -9,8 +9,6 @@ class ItemModel {
         totalPages = parsedJson['total_pages'] ?? 0,
         totalResults = parsedJson['total_results'] ?? 0,
         results = ((parsedJson['results'] as List?)?.map((result) {
-              print(
-                  "Result JSON: $result"); // Debugging line to check each result
               return Result.fromJson(result);
             }).toList() ??
             [])
