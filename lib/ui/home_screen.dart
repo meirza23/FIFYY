@@ -105,13 +105,6 @@ class _ContentPageState extends State<ContentPage> {
                     return suggestions;
                   },
                   itemBuilder: (context, suggestion) {
-                    // Ensure the suggestion list is not empty before accessing its elements
-                    if (suggestion.results.isEmpty) {
-                      return ListTile(
-                        leading: Icon(Icons.movie),
-                        title: Text("No results found"),
-                      );
-                    }
                     return ListTile(
                       leading: Image.network(suggestion.posterPath),
                       title: Text(suggestion.title),
