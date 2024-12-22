@@ -24,9 +24,6 @@ class BackendService {
           return Result.fromJson(item); // Directly map to Result
         }).toList();
 
-        // Debugging: Print all parsed items
-        print("Parsed items: $items");
-
         return items;
       } catch (e) {
         print('Error parsing JSON: $e');

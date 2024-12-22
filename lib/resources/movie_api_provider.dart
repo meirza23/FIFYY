@@ -12,7 +12,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchPopularMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/popular?api_key=$apiKey###&region=US"));
+        .get(Uri.parse("$baseUrl/popular?api_key=$apiKey###&region=TR"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -24,7 +24,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchTopRatedMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey###&region=US"));
+        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey###&region=TR"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -36,7 +36,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchUpcomingMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/upcoming?api_key=$apiKey###&region=US"));
+        .get(Uri.parse("$baseUrl/upcoming?api_key=$apiKey###&region=TR"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -48,7 +48,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchNowPlayingMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/now_playing?api_key=$apiKey###&region=US"));
+        .get(Uri.parse("$baseUrl/now_playing?api_key=$apiKey###&region=TR"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
