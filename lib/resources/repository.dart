@@ -5,7 +5,7 @@ import 'package:fify/resources/movie_api_provider.dart';
 class Repository {
   final movieapiprovider = MovieApiProvider();
 
-  Future<ItemModel> fetchAllMovies() =>
+  Future<ItemModel> fetchAllPopularMovies() =>
       movieapiprovider.fetchPopularMovieList(false);
   Future<ItemModel> fetchAllTopRatedMovies() =>
       movieapiprovider.fetchTopRatedMovieList(false);

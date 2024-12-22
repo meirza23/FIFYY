@@ -17,7 +17,7 @@ class MoviesBloc {
   Stream<ItemModel> get allNowPlayingMovies => movieFetcher4.stream;
 
   fetchAllMovies() async {
-    ItemModel itemModel = await repo.fetchAllMovies();
+    ItemModel itemModel = await repo.fetchAllPopularMovies();
     movieFetcher.sink.add(itemModel);
   }
 
