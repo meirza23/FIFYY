@@ -101,7 +101,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    bloc.fetchAllPopularMovies();
   }
 
   @override
@@ -311,7 +311,7 @@ class _PopularMoviesState extends State<PopularMovies> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    bloc.fetchAllPopularMovies();
   }
 
   @override

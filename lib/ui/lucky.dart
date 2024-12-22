@@ -58,7 +58,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    bloc.fetchAllPopularMovies();
   }
 
   @override

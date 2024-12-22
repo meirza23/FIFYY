@@ -49,7 +49,7 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    bloc.fetchAllPopularMovies();
   }
 
   void clear() {
@@ -462,7 +462,7 @@ class PopularMovies extends StatefulWidget {
 class _PopularMoviesState extends State<PopularMovies> {
   void initState() {
     super.initState();
-    bloc.fetchAllMovies();
+    bloc.fetchAllPopularMovies();
   }
 
   @override
