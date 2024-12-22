@@ -10,11 +10,23 @@ class MoviesBloc {
   final movieFetcher2 = PublishSubject<ItemModel>();
   final movieFetcher3 = PublishSubject<ItemModel>();
   final movieFetcher4 = PublishSubject<ItemModel>();
+  final movieFetcher5 = PublishSubject<ItemModel>();
 
   Stream<ItemModel> get allMovies => movieFetcher.stream;
   Stream<ItemModel> get allTopRatedMovies => movieFetcher2.stream;
   Stream<ItemModel> get allUpcomingMovies => movieFetcher3.stream;
   Stream<ItemModel> get allNowPlayingMovies => movieFetcher4.stream;
+  Stream<ItemModel> get allPopularMovies => movieFetcher5.stream;
+  fetchAllMovies() async {
+    // Popüler ve en yüksek puanlı filmleri aynı anda çekiyoruz
+    final popularMovies = await repo.fetchAllPopularMovies();
+    final topRatedMovies = await repo.fetchAllTopRatedMovies();
+
+    // Her iki listeyi birleştiriyoruz
+    popularMovies.results.addAll(topRatedMovies.results);
+    // Birleştirilmiş listeyi döndürüyoruz
+    return popularMovies;
+  }
 
   fetchAllPopularMovies() async {
     ItemModel itemModel = await repo.fetchAllPopularMovies();
@@ -41,6 +53,7 @@ class MoviesBloc {
     movieFetcher2.close();
     movieFetcher3.close();
     movieFetcher4.close();
+    movieFetcher5.close();
   }
 }
 

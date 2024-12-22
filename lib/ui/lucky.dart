@@ -58,7 +58,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllPopularMovies();
+    bloc.fetchAllMovies();
   }
 
   @override
@@ -66,7 +66,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
     Random random = Random();
     int randomNumber = random.nextInt(20);
     return StreamBuilder(
-      stream: bloc.allMovies,
+      stream: bloc.allPopularMovies,
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
         if (snapshot.hasData) {
           return Container(
