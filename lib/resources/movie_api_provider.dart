@@ -12,9 +12,9 @@ class MovieApiProvider {
   Future<ItemModel> fetchAllMoviesList(bool isRecent) async {
     // Popüler ve top rated filmleri aynı anda çekiyoruz
     final popularMoviesFuture =
-        client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey###&region=TR"));
-    final topRatedMoviesFuture = client
-        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey###&region=TR"));
+        client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey&page=1"));
+    final topRatedMoviesFuture =
+        client.get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey&page=1"));
 
     try {
       // Her iki isteği aynı anda bekliyoruz
@@ -28,23 +28,13 @@ class MovieApiProvider {
       // Yanıtların durum kodunu kontrol ediyoruz
       if (popularMoviesResponse.statusCode == 200 &&
           topRatedMoviesResponse.statusCode == 200) {
-        // JSON verilerini çözme ve debugging için basit loglama
-        print('Popular Movies Response: ${popularMoviesResponse.body}');
-        print('Top Rated Movies Response: ${topRatedMoviesResponse.body}');
-
         var popularMovies = ItemModel.fromJson(
             json.decode(popularMoviesResponse.body), isRecent);
         var topRatedMovies = ItemModel.fromJson(
             json.decode(topRatedMoviesResponse.body), isRecent);
 
-        print('Popular Movies Length: ${popularMovies.results.length}');
-        print('Top Rated Movies Length: ${topRatedMovies.results.length}');
-
         // Verilerin doğru bir şekilde birleştiğinden emin olmak için
         popularMovies.results.addAll(topRatedMovies.results);
-
-        print(
-            'Total Movies Length after Adding: ${popularMovies.results.length}');
 
         return popularMovies;
       } else {
@@ -57,8 +47,8 @@ class MovieApiProvider {
 
   Future<ItemModel> fetchPopularMovieList(bool isRecent) async {
     //print('entered');
-    final response = await client
-        .get(Uri.parse("$baseUrl/popular?api_key=$apiKey###&region=TR"));
+    final response =
+        await client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey&page=1"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -70,7 +60,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchTopRatedMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey###&region=TR"));
+        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey&page=1"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -81,8 +71,8 @@ class MovieApiProvider {
 
   Future<ItemModel> fetchUpcomingMovieList(bool isRecent) async {
     //print('entered');
-    final response = await client
-        .get(Uri.parse("$baseUrl/upcoming?api_key=$apiKey###&region=TR"));
+    final response =
+        await client.get(Uri.parse("$baseUrl/upcoming?api_key=$apiKey&page=1"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
@@ -94,7 +84,7 @@ class MovieApiProvider {
   Future<ItemModel> fetchNowPlayingMovieList(bool isRecent) async {
     //print('entered');
     final response = await client
-        .get(Uri.parse("$baseUrl/now_playing?api_key=$apiKey###&region=TR"));
+        .get(Uri.parse("$baseUrl/now_playing?api_key=$apiKey&page=1"));
     //print(response.body.toString());
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body), isRecent);
