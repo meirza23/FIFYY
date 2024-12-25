@@ -135,14 +135,7 @@ class _ContentPageState extends State<ContentPage> {
                             .ellipsis, // Uzun metni üç nokta ile kısaltır.
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30, top: 5),
-                      child: Image.asset(
-                        'assets/images/right-arrow.png',
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(right: 30, top: 5),
                       child: Image.asset(

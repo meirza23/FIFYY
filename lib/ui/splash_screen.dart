@@ -63,11 +63,12 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Center(
             child: GradientText(
               'FIFYY',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 75.0,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'REM',
               ),
-              colors: const [
+              colors: [
                 Colors.blue,
                 Colors.red,
                 Colors.teal,

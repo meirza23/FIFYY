@@ -110,11 +110,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       top: 100.0), // Padding above the title
                   child: GradientText(
                     'FIFYY',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 60.0, // Increased font size
                       fontWeight: FontWeight.bold, // Added boldness
+                      fontFamily: 'REM',
                     ),
-                    colors: const [
+                    colors: [
                       Colors.blue,
                       Colors.red,
                       Colors.teal,
@@ -132,13 +133,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                         controller: usernameController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Username',
                           hintStyle: TextStyle(color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(vertical: 20.0),
                         ),
                       ),
                     ),
@@ -155,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -163,6 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: InputBorder.none,
                           hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(vertical: 20.0),
                         ),
                       ),
                     ),
@@ -179,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                         controller: passwordController,
                         obscureText: true,
@@ -187,6 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: InputBorder.none,
                           hintText: 'Password',
                           hintStyle: TextStyle(color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(vertical: 20.0),
                         ),
                       ),
                     ),
@@ -203,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                         controller: confirmPasswordController,
                         obscureText: true,
@@ -211,6 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           border: InputBorder.none,
                           hintText: 'Confirm Password',
                           hintStyle: TextStyle(color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(vertical: 20.0),
                         ),
                       ),
                     ),

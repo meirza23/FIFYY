@@ -113,11 +113,11 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 50),
                 GradientText(
                   'FIFYY',
-                  style: const TextStyle(
-                    fontSize: 60.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  colors: const [
+                  style: TextStyle(
+                      fontSize: 60.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'REM'),
+                  colors: [
                     Colors.blue,
                     Colors.red,
                     Colors.teal,
