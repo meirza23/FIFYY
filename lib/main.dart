@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'FIFY App',
+      title: 'FIFYY App',
       theme: ThemeData(
         fontFamily:
             'SubstanceMedium', // Varsayılan font olarak SubstanceMedium kullanıyoruz
