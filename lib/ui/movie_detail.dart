@@ -279,6 +279,8 @@ class _ContentPageState extends State<ContentPage> {
                       color: textColor,
                       fontSize: 18,
                     ),
+                    maxLines: 11,
+                    overflow: TextOverflow.ellipsis, // Max 3 satır göster
                   ),
                 ],
               ),
