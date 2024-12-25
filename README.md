@@ -60,3 +60,30 @@ Uygulamayı başlatmak için:
 Kullanıcı Arayüzü
 
 Uygulama, modern bir kullanıcı arayüzüne sahiptir ve kullanıcı deneyimi göz önünde bulundurularak tasarlanmıştır. Ana sayfa, film kategorileri ve arama özellikleri kolayca erişilebilecek şekilde düzenlenmiştir. Ayrıca, mobil uyumluluk sayesinde farklı ekran boyutlarında da kullanıcı dostu bir deneyim sunmaktadır.
+
+## Kullanıcı Arayüzü Görselleri
+
+### Ana Sayfa
+![Ana Sayfa](app_images/1.png)
+
+### Film Detayları Sayfası
+![Film Detayları](app_images/2.png)
+
+### Arama Özelliği
+![Arama Özelliği](app_images/3.png)
+
+### Rastgele Film Tavsiyesi
+![Rastgele Film Tavsiyesi](app_images/4.png)
+
+### Giriş ve Kayıt Sayfası
+![Giriş ve Kayıt Sayfası](app_images/5.png)
+
+### Kategoriler
+![Kategoriler](app_images/6.png)
+
+### Kullanıcı Ayarları
+![Kullanıcı Ayarları](app_images/7.png)
+
+### Hata Mesajı Görseli (Opsiyonel)
+![Hata Mesajı](app_images/8.png)
+
