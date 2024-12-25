@@ -2,6 +2,7 @@ import 'package:fify/blocs/genre_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -76,7 +77,7 @@ class _ContentPageState extends State<ContentPage> {
       child: Stack(
         children: <Widget>[
           Container(
-            height: 410,
+            height: 360,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fitWidth,
@@ -93,12 +94,14 @@ class _ContentPageState extends State<ContentPage> {
             child: IconButton(
               icon: Image.asset('assets/images/left-arrow.png', width: 30),
               onPressed: () {
-                Navigator.pop(context); // Bir önceki sayfaya yönlendirir
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                )); // Bir önceki sayfaya yönlendirir
               },
             ),
           ),
           Positioned(
-            top: 330,
+            top: 280,
             child: Container(
               padding: const EdgeInsets.only(left: 20, top: 8),
               width: width,
@@ -121,7 +124,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 280,
+            top: 230,
             child: Container(
               width: width - 20,
               child: Text(
@@ -132,7 +135,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 350,
+            top: 320,
             child: GetGenres(
               snapshotGenres: widget.snapshotGenres,
               data: this.widget.data,
@@ -140,7 +143,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 430,
+            top: 380,
             child: Container(
               width: MediaQuery.of(context).size.width - 40,
               height: 0.5,
@@ -149,7 +152,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 430,
+            top: 380,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 120,
@@ -247,7 +250,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 550,
+            top: 500,
             child: Container(
               width: MediaQuery.of(context).size.width - 40,
               height: 0.5,
@@ -256,7 +259,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 560,
+            top: 510,
             child: Container(
               width: MediaQuery.of(context).size.width - 40,
               child: Column(
@@ -279,7 +282,7 @@ class _ContentPageState extends State<ContentPage> {
                       color: textColor,
                       fontSize: 18,
                     ),
-                    maxLines: 11,
+                    maxLines: 12,
                     overflow: TextOverflow.ellipsis, // Max 3 satır göster
                   ),
                 ],

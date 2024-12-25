@@ -5,6 +5,7 @@ import 'package:fify/blocs/movies_bloc.dart';
 import 'package:fify/models/genre_model.dart';
 import 'package:fify/models/item_model.dart';
 import 'package:fify/ui/colors.dart';
+import 'package:fify/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class Lucky extends StatelessWidget {
@@ -64,7 +65,10 @@ class _ItemsLoadState extends State<ItemsLoad> {
   @override
   Widget build(BuildContext context) {
     Random random = Random();
-    int randomNumber = random.nextInt(20);
+
+    int randomNumber = random.nextInt(199);
+
+    print("Rastgele Film ID'si: $randomNumber");
     return StreamBuilder(
       stream: bloc.allMovies,
       builder: (context, AsyncSnapshot<ItemModel> snapshot) {
@@ -134,7 +138,9 @@ class _ContentPageState extends State<ContentPage> {
                 height: 30,
               ),
               onPressed: () {
-                Navigator.pop(context); // Bir önceki sayfaya yönlendirir
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ));
               },
             ),
           ),
@@ -189,7 +195,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 340,
+            top: 350,
             child: GetGenres(
               snapshotGenres: widget.snapshotGenres,
               data: this.widget.data,

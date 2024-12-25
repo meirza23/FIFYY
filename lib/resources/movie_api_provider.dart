@@ -11,7 +11,7 @@ class MovieApiProvider {
 
   Future<ItemModel> fetchAllMoviesList(bool isRecent) async {
     final temp = []; // Geçici liste
-    for (int page = 1; page <= 10; page++) {
+    for (int page = 1; page <= 50; page++) {
       final response = await client.get(
         Uri.parse("$baseUrl/popular?api_key=$apiKey&page=$page"),
       );
