@@ -398,7 +398,7 @@ class _ItemsLoadState extends State<ItemsLoad> {
     sortedMovies?.sort((a, b) => b.popularity.compareTo(a.popularity));
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: 5,
+      itemCount: 20,
       itemBuilder: (context, int index) {
         final movie = sortedMovies?[index];
         if (movie == null) {

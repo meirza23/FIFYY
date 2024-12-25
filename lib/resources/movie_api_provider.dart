@@ -10,87 +10,108 @@ class MovieApiProvider {
   final baseUrl = "https://api.themoviedb.org/3/movie";
 
   Future<ItemModel> fetchAllMoviesList(bool isRecent) async {
-    // Popüler ve top rated filmleri aynı anda çekiyoruz
-    final popularMoviesFuture =
-        client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey&page=1"));
-    final topRatedMoviesFuture =
-        client.get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey&page=1"));
+    final temp = []; // Geçici liste
+    for (int page = 1; page <= 50; page++) {
+      final response = await client.get(
+        Uri.parse("$baseUrl/popular?api_key=$apiKey&page=$page"),
+      );
 
-    try {
-      // Her iki isteği aynı anda bekliyoruz
-      final responses =
-          await Future.wait([popularMoviesFuture, topRatedMoviesFuture]);
-
-      // İki response'ı kontrol ediyoruz
-      final popularMoviesResponse = responses[0];
-      final topRatedMoviesResponse = responses[1];
-
-      // Yanıtların durum kodunu kontrol ediyoruz
-      if (popularMoviesResponse.statusCode == 200 &&
-          topRatedMoviesResponse.statusCode == 200) {
-        var popularMovies = ItemModel.fromJson(
-            json.decode(popularMoviesResponse.body), isRecent);
-        var topRatedMovies = ItemModel.fromJson(
-            json.decode(topRatedMoviesResponse.body), isRecent);
-
-        // Verilerin doğru bir şekilde birleştiğinden emin olmak için
-        popularMovies.results.addAll(topRatedMovies.results);
-
-        return popularMovies;
+      if (response.statusCode == 200) {
+        // Gelen JSON'daki "results" kısmını geçici listeye ekle
+        final jsonData = json.decode(response.body);
+        temp.addAll(jsonData["results"]);
       } else {
-        throw Exception("Failed to load movies");
+        throw Exception("Failed to load movies on page $page");
       }
-    } catch (e) {
-      throw Exception("Failed to load movies: $e");
     }
+
+    // Tüm veriler birleştirildikten sonra ItemModel'e dönüştür
+    final combinedData = {"results": temp}; // Tek bir JSON formatı oluştur
+    return ItemModel.fromJson(combinedData, isRecent);
   }
 
   Future<ItemModel> fetchPopularMovieList(bool isRecent) async {
-    //print('entered');
-    final response =
-        await client.get(Uri.parse("$baseUrl/popular?api_key=$apiKey&page=1"));
-    //print(response.body.toString());
-    if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body), isRecent);
-    } else {
-      throw Exception("Failed to load movies");
+    final temp = []; // Geçici liste
+    for (int page = 1; page <= 5; page++) {
+      final response = await client.get(
+        Uri.parse("$baseUrl/popular?api_key=$apiKey&page=$page"),
+      );
+
+      if (response.statusCode == 200) {
+        // Gelen JSON'daki "results" kısmını geçici listeye ekle
+        final jsonData = json.decode(response.body);
+        temp.addAll(jsonData["results"]);
+      } else {
+        throw Exception("Failed to load movies on page $page");
+      }
     }
+
+    // Tüm veriler birleştirildikten sonra ItemModel'e dönüştür
+    final combinedData = {"results": temp}; // Tek bir JSON formatı oluştur
+    return ItemModel.fromJson(combinedData, isRecent);
   }
 
   Future<ItemModel> fetchTopRatedMovieList(bool isRecent) async {
-    //print('entered');
-    final response = await client
-        .get(Uri.parse("$baseUrl/top_rated?api_key=$apiKey&page=1"));
-    //print(response.body.toString());
-    if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body), isRecent);
-    } else {
-      throw Exception("Failed to load movies");
+    final temp = []; // Geçici liste
+    for (int page = 1; page <= 5; page++) {
+      final response = await client.get(
+        Uri.parse("$baseUrl/top_rated?api_key=$apiKey&page=$page"),
+      );
+
+      if (response.statusCode == 200) {
+        // Gelen JSON'daki "results" kısmını geçici listeye ekle
+        final jsonData = json.decode(response.body);
+        temp.addAll(jsonData["results"]);
+      } else {
+        throw Exception("Failed to load movies on page $page");
+      }
     }
+
+    // Tüm veriler birleştirildikten sonra ItemModel'e dönüştür
+    final combinedData = {"results": temp}; // Tek bir JSON formatı oluştur
+    return ItemModel.fromJson(combinedData, isRecent);
   }
 
   Future<ItemModel> fetchUpcomingMovieList(bool isRecent) async {
-    //print('entered');
-    final response =
-        await client.get(Uri.parse("$baseUrl/upcoming?api_key=$apiKey&page=1"));
-    //print(response.body.toString());
-    if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body), isRecent);
-    } else {
-      throw Exception("Failed to load movies");
+    final temp = []; // Geçici liste
+    for (int page = 1; page <= 5; page++) {
+      final response = await client.get(
+        Uri.parse("$baseUrl/upcoming?api_key=$apiKey&page=$page"),
+      );
+
+      if (response.statusCode == 200) {
+        // Gelen JSON'daki "results" kısmını geçici listeye ekle
+        final jsonData = json.decode(response.body);
+        temp.addAll(jsonData["results"]);
+      } else {
+        throw Exception("Failed to load movies on page $page");
+      }
     }
+
+    // Tüm veriler birleştirildikten sonra ItemModel'e dönüştür
+    final combinedData = {"results": temp}; // Tek bir JSON formatı oluştur
+    return ItemModel.fromJson(combinedData, isRecent);
   }
 
   Future<ItemModel> fetchNowPlayingMovieList(bool isRecent) async {
-    //print('entered');
-    final response = await client
-        .get(Uri.parse("$baseUrl/now_playing?api_key=$apiKey&page=1"));
-    //print(response.body.toString());
-    if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body), isRecent);
-    } else {
-      throw Exception("Failed to load movies");
+    final temp = []; // Geçici liste
+    for (int page = 1; page <= 5; page++) {
+      final response = await client.get(
+        Uri.parse("$baseUrl/now_playing?api_key=$apiKey&page=$page"),
+      );
+
+      if (response.statusCode == 200) {
+        // Gelen JSON'daki "results" kısmını geçici listeye ekle
+        final jsonData = json.decode(response.body);
+        temp.addAll(jsonData["results"]);
+      } else {
+        throw Exception("Failed to load movies on page $page");
+      }
     }
+
+    // Tüm veriler birleştirildikten sonra ItemModel'e dönüştür
+    final combinedData = {"results": temp}; // Tek bir JSON formatı oluştur
+    return ItemModel.fromJson(combinedData, isRecent);
   }
 
   Future<GenreModel> fetchGenresList() async {

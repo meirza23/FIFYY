@@ -132,7 +132,7 @@ class _ContentPageState extends State<ContentPage> {
           ),
           Positioned(
             left: 20,
-            top: 340,
+            top: 350,
             child: GetGenres(
               snapshotGenres: widget.snapshotGenres,
               data: this.widget.data,

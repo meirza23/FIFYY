@@ -101,7 +101,6 @@ class _SeeAllPageState extends State<SeeAllPage> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchAllPopularMovies();
   }
 
   @override
@@ -193,7 +192,7 @@ class _SAItemsLoadState extends State<SAItemsLoad> {
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: widget.snapshot.data?.results.length,
+      itemCount: 100,
       itemBuilder: (context, int index) {
         return Column(
           children: <Widget>[
@@ -253,7 +252,7 @@ class _SAItemsLoadState extends State<SAItemsLoad> {
                             style: TextStyle(color: textColor, fontSize: 16),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Row(
                             children: <Widget>[
