@@ -63,27 +63,17 @@ Uygulama, modern bir kullanıcı arayüzüne sahiptir ve kullanıcı deneyimi g�
 
 ## Kullanıcı Arayüzü Görselleri
 
-### Ana Sayfa
-![Ana Sayfa](app_images/1.png)
-
-### Film Detayları Sayfası
-![Film Detayları](app_images/2.png)
-
-### Arama Özelliği
-![Arama Özelliği](app_images/3.png)
-
-### Rastgele Film Tavsiyesi
-![Rastgele Film Tavsiyesi](app_images/4.png)
-
-### Giriş ve Kayıt Sayfası
-![Giriş ve Kayıt Sayfası](app_images/5.png)
-
-### Kategoriler
-![Kategoriler](app_images/6.png)
-
-### Kullanıcı Ayarları
-![Kullanıcı Ayarları](app_images/7.png)
-
-### Hata Mesajı Görseli (Opsiyonel)
-![Hata Mesajı](app_images/8.png)
-
+Splash Screen
+<img src="app_images/1.png" alt="Splash Screen" width="300">
+Login Screen
+<img src="app_images/2.png" alt="Login Screen" width="300">
+Register Screen
+<img src="app_images/3.png" alt="Register Screen" width="300">
+Home Screen
+<img src="app_images/4.png" alt="Home Screen" width="300">
+Movie Detail Screen
+<img src="app_images/5.png" alt="Movie Detail Screen" width="300">
+Search Screen
+<img src="app_images/6.png" alt="Search Screen" width="300">
+Lucky Screen
+<img src="app_images/7.png" alt="Lucky Screen" width="300">
