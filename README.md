@@ -63,17 +63,17 @@ Uygulama, modern bir kullanıcı arayüzüne sahiptir ve kullanıcı deneyimi g�
 
 ## Kullanıcı Arayüzü Görselleri
 
-Splash Screen
+
 <img src="app_images/1.png" alt="Splash Screen" width="300">
-Login Screen
+
 <img src="app_images/2.png" alt="Login Screen" width="300">
-Register Screen
+
 <img src="app_images/3.png" alt="Register Screen" width="300">
-Home Screen
+
 <img src="app_images/4.png" alt="Home Screen" width="300">
-Movie Detail Screen
+
 <img src="app_images/5.png" alt="Movie Detail Screen" width="300">
-Search Screen
+
 <img src="app_images/6.png" alt="Search Screen" width="300">
-Lucky Screen
+
 <img src="app_images/7.png" alt="Lucky Screen" width="300">
